@@ -1,0 +1,13 @@
+spring:
+  application:
+    name: car
+
+
+server:
+  port: 8001
+
+wx:
+  appId: "wx37aea21b35c1891c"
+  secret: ${WECHAT_SECRET}
+  openid: ${WECHAT_OPENID}
+  templateId: "l_W1x3CzdxD0f0tcGVAh1z5odMQFtee1_Ugkqk3lEGM"
