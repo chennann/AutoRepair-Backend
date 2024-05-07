@@ -29,5 +29,5 @@ public interface RepairmanService {
 
     void useComponent(Integer faultNumber, Integer cNumber);
 
-    void calculate(Integer faultNumber);
+    Double calculate(Integer faultNumber);
 }

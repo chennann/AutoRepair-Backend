@@ -93,7 +93,7 @@ public class RepairmanServiceImpl implements RepairmanService {
     }
 
     @Override
-    public void calculate(Integer faultNumber) {
+    public Double calculate(Integer faultNumber) {
 
         Double cPrice = repairmanMapper.calculateComponent(faultNumber);
         Double tPrice = repairmanMapper.calculateTime(faultNumber);
@@ -105,5 +105,7 @@ public class RepairmanServiceImpl implements RepairmanService {
         //更新fault表
         System.out.println(totalPrice);
         repairmanMapper.updateMoney(totalPrice, faultNumber);
+
+        return totalPrice;
     }
 }

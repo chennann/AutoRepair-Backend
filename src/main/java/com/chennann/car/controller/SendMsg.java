@@ -5,6 +5,8 @@ import cn.hutool.http.HttpUtil;
 import cn.hutool.json.JSONObject;
 import cn.hutool.json.JSONUtil;
 import com.chennann.car.pojo.Result;
+import com.chennann.car.service.RepairmanService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -28,12 +30,15 @@ public class SendMsg {
     @Value("${wx.templateId}")
     private String templateId;
 
+    @Autowired
+    private RepairmanService repairmanService;
+
     @GetMapping("/sendMsg")
-    public Result sendMsg(Integer type){
+    public Result sendMsg(Integer type, Integer fault_number){
         //1:获取token（接口调用凭证）
         String token = queryToken();
         //2:发送订阅消息
-        send(token, type);
+        send(token, type, fault_number);
         return Result.success();
     }
 
@@ -60,7 +65,7 @@ public class SendMsg {
 
 
     //type 1:结算通知 2:签字通知 others:推进通知
-    public void send(String token, Integer type){
+    public void send(String token, Integer type, Integer fault_number){
         String msgUrl="https://api.weixin.qq.com/cgi-bin/message/subscribe/send";
         msgUrl = msgUrl + "?access_token=" + token;
         // 设置模板参数
@@ -84,9 +89,12 @@ public class SendMsg {
         data.put("thing1", formatParam("chennann064", "text"));
         data.put("time2", formatParam(timestamp, "date"));  // 假设这是时间戳
         if (type == 1) {
+
+            Double totalPrice = repairmanService.calculate(fault_number);
+
             data.put("thing3", formatParam("结算💰", "text"));
             data.put("thing4", formatParam("您的车辆已经完成维修，请到店缴费提车🚀", "text"));
-            data.put("amount5", formatParam("987.66", "number"));
+            data.put("amount5", formatParam(String.valueOf(totalPrice), "number"));
         }
         else if (type == 2) {
             data.put("thing3", formatParam("电子签名通知✍️", "text"));

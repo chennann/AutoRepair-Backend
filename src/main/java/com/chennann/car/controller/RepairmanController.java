@@ -88,7 +88,7 @@ public class RepairmanController {
             repairmanService.setDoing(faultDetail);
 
             //发订单推进通知
-            sendMsg.sendMsg(3);
+            sendMsg.sendMsg(3, fault_number);
         }
         else {
             if (fds.size() == 0) {
@@ -98,7 +98,7 @@ public class RepairmanController {
                 repairmanService.calculate(fault_number);
 
                 //发提车通知
-                sendMsg.sendMsg(1);
+                sendMsg.sendMsg(1, fault_number);
 
             }
         }
