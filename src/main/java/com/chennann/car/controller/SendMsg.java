@@ -4,6 +4,7 @@ package com.chennann.car.controller;
 import cn.hutool.http.HttpUtil;
 import cn.hutool.json.JSONObject;
 import cn.hutool.json.JSONUtil;
+import com.chennann.car.pojo.Result;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -28,11 +29,12 @@ public class SendMsg {
     private String templateId;
 
     @GetMapping("/sendMsg")
-    public void sendMsg(){
+    public Result sendMsg(Integer type){
         //1:获取token（接口调用凭证）
         String token = queryToken();
         //2:发送订阅消息
-        send(token);
+        send(token, type);
+        return Result.success();
     }
 
     // 1: 获取 access_token  (2h过期)
@@ -57,8 +59,8 @@ public class SendMsg {
     }
 
 
-
-    public void send(String token){
+    //type 1:结算通知 2:签字通知 others:推进通知
+    public void send(String token, Integer type){
         String msgUrl="https://api.weixin.qq.com/cgi-bin/message/subscribe/send";
         msgUrl = msgUrl + "?access_token=" + token;
         // 设置模板参数
@@ -75,16 +77,27 @@ public class SendMsg {
 //        data.put("amount5", formatParam("123.23"));
 //        paramMap.put("data", data);
 
-
         // 然后在数据构建时
         HashMap<String, Object> data = new HashMap<>();
         long currentTimeMillis = System.currentTimeMillis();
         String timestamp = String.valueOf(currentTimeMillis);
         data.put("thing1", formatParam("chennann064", "text"));
         data.put("time2", formatParam(timestamp, "date"));  // 假设这是时间戳
-        data.put("thing3", formatParam("结算", "text"));
-        data.put("thing4", formatParam("您的车辆已经完成维修，请到店缴费提车🚀", "text"));
-        data.put("amount5", formatParam("987.66", "number"));
+        if (type == 1) {
+            data.put("thing3", formatParam("结算💰", "text"));
+            data.put("thing4", formatParam("您的车辆已经完成维修，请到店缴费提车🚀", "text"));
+            data.put("amount5", formatParam("987.66", "number"));
+        }
+        else if (type == 2) {
+            data.put("thing3", formatParam("电子签名通知✍️", "text"));
+            data.put("thing4", formatParam("您收到一条合同签署通知", "text"));
+        }
+        else {
+            data.put("thing3", formatParam("进度推进提醒📝", "text"));
+            data.put("thing4", formatParam("车辆已进入下一阶段", "text"));
+//            data.put("amount5", formatParam("987.66", "number"));
+        }
+
         paramMap.put("data", data);
 
 

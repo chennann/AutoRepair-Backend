@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.chennann.car.mapper.RepairmanMapper">
+
+    <select id="findValidFaults" resultType="com.chennann.car.pojo.FaultDetail">
+        select identification_number, fault_number, specific_number, time, name, states, fault_specific.number as id
+        from fault, fault_specific, specific_information
+                 where fault.number = fault_specific.fault_number
+                   and fault_specific.specific_number = specific_information.number
+                   and specific_information.jobs_type = #{job}
+                   and fault_specific.repairman_number is null
+    </select>
+    <select id="findHistoryFaults" resultType="com.chennann.car.pojo.FaultDetail">
+        select identification_number, fault_number, specific_number, time, name, states, fault_specific.number as id
+        from fault, fault_specific, specific_information
+            where fault.number = fault_specific.fault_number
+              and fault_specific.specific_number = specific_information.number
+              and fault_specific.repairman_number = #{number}
+    </select>
+    <select id="getItemsWithRepmAndWaiting" resultType="com.chennann.car.pojo.FaultDetail">
+        select fault_number, specific_number, number as id  from fault_specific where repairman_number is not null and states = 'Waiting'
+    </select>
+    <select id="getCountWorking" resultType="java.lang.Integer">
+        select count(*) from fault_specific where repairman_number is not null and states = 'Doing'
+    </select>
+    <select id="findComponents" resultType="com.chennann.car.pojo.Component">
+        select * from component
+        <where>
+            <if test="number!=null">
+                number = #{number}
+            </if>
+            <if test="name!=null">
+                and name like CONCAT('%', #{name}, '%')
+            </if>
+            <if test="number!=null">
+                and number = #{number}
+            </if>
+            <if test="vehicleType!=null">
+                and vehicle_type like CONCAT('%', #{vehicleType}, '%')
+            </if>
+        </where>
+    </select>
+    <select id="calculateComponent" resultType="java.lang.Double">
+        select sum(money) from component A, component_project B where A.number = B.component_number and B.fault_number = #{faultNumber}
+    </select>
+    <select id="calculateTime" resultType="java.lang.Double">
+        select sum(time * 10) from fault_specific A, specific_information B where A.specific_number = B.number and A.fault_number = #{faultNumber}
+    </select>
+</mapper>

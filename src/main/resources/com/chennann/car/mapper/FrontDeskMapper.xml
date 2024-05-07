@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.chennann.car.mapper.FrontDeskMapper">
+
+
+    <insert id="addSpecifics">
+        INSERT INTO fault_specific (fault_number, specific_number)
+        VALUES
+        <foreach item="item" collection="specifics" separator=",">
+            (#{number}, #{item})
+        </foreach>
+    </insert>
+    <select id="findClients" resultType="com.chennann.car.pojo.Client">
+        select * from client
+        <where>
+            <if test="number!=null">
+                number = #{number}
+            </if>
+            <if test="name!=null">
+                and name like CONCAT('%', #{name}, '%')
+            </if>
+            <if test="property!=null">
+                and property = #{property}
+            </if>
+            <if test="contact_number!=null">
+                and contact_number = #{contact_number}
+            </if>
+        </where>
+    </select>
+    <select id="findFaults" resultType="com.chennann.car.pojo.Fault">
+        select * from fault
+        <where>
+            <if test="number!=null">
+                number = #{number}
+            </if>
+            <if test="identification_number!=null">
+                and identification_number = #{identification_number}
+            </if>
+        </where>
+    </select>
+    <select id="findCars" resultType="com.chennann.car.pojo.Car">
+        select * from car
+        <where>
+            <if test="identificationNumber!=null">
+                identification_number = #{identificationNumber}
+            </if>
+            <if test="licensePlateNumber!=null">
+                and license_plate_number = #{licensePlateNumber}
+            </if>
+        </where>
+    </select>
+    <select id="findRepairman" resultType="com.chennann.car.pojo.Repairman">
+        select * from repairman
+        <where>
+            <if test="jobs!=null">
+                jobs = #{jobs}
+            </if>
+            <if test="number!=null">
+                and number = #{number}
+            </if>
+        </where>
+    </select>
+    <select id="findSpecifics" resultType="com.chennann.car.pojo.Specific">
+        select * from specific_information
+        <where>
+            <if test="jobsType!=null">
+                jobs_type = #{jobsType}
+            </if>
+            <if test="keywords!=null">
+                and name like CONCAT('%', #{keywords}, '%')
+            </if>
+        </where>
+    </select>
+</mapper>
