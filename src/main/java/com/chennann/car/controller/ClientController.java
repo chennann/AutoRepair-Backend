@@ -1,5 +1,6 @@
 package com.chennann.car.controller;
 
+import com.chennann.car.pojo.CurrentFault;
 import com.chennann.car.pojo.Fault;
 import com.chennann.car.pojo.Result;
 import com.chennann.car.service.ClientService;
@@ -27,5 +28,11 @@ public class ClientController {
     }
 
 
-    //
+    //查看当前订单详情
+    @GetMapping("/getCurrentDetail")
+    public Result<CurrentFault> getCurrentDetail (Integer client_number) {
+        CurrentFault res = clientService.getCurrentDetail(client_number);
+        return Result.success(res);
+    }
+
 }

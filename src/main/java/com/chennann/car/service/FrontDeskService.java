@@ -11,9 +11,9 @@ public interface FrontDeskService {
 
     PageBean<Client> findClients(Integer pageNum, Integer pageSize, String number, String name, String property, String contact_number);
 
-    PageBean<Fault> findFaults(Integer pageNum, Integer pageSize, String number, String identification_number);
+    PageBean<Fault> findFaults(Integer pageNum, Integer pageSize, Integer number, String identification_number, String client_name, Integer client_number);
 
-    PageBean<Car> findCars(Integer pageNum, Integer pageSize, String identificationNumber, String licensePlateNumber, String vehicleType);
+    PageBean<Car> findCars(Integer pageNum, Integer pageSize, String identificationNumber, String licensePlateNumber, String vehicleType, Integer clientNumber, String clientName);
 
     PageBean<Repairman> findRepairman(Integer pageNum, Integer pageSize, String jobs, Integer number);
 

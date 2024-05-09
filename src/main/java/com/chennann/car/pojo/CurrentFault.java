@@ -4,14 +4,15 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.List;
+
 @NoArgsConstructor
 @AllArgsConstructor
 @Data
-public class Specific {
-    String jobs_type;
-    Double time;
-    Integer project_number;
-    Integer number;
-    String name;
-    String states;
+public class CurrentFault {
+
+    List<Specific> specifics;
+    List<Component> components;
+    Fault fault;
+
 }

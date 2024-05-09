@@ -30,24 +30,41 @@
         </where>
     </select>
     <select id="findFaults" resultType="com.chennann.car.pojo.Fault">
-        select * from fault
+        select * from fault, car, client
         <where>
+            fault.identification_number = car.identification_number and car.client_number = client.number
             <if test="number!=null">
-                number = #{number}
+                and fault.number = #{number}
             </if>
             <if test="identification_number!=null">
-                and identification_number = #{identification_number}
+                and fault.identification_number = #{identification_number}
+            </if>
+            <if test="client_number!=null">
+                and client.number = #{client_number}
+            </if>
+            <if test="client_name!=null">
+                and client.name like CONCAT('%', #{client_name}, '%')
             </if>
         </where>
     </select>
     <select id="findCars" resultType="com.chennann.car.pojo.Car">
-        select * from car
+        select car.identification_number, car.license_plate_number, car.color, car.vehicle_type, client.number client_number, client.name client_name, client.contact_number client_contact_number from car, client
         <where>
+            car.client_number = client.number
             <if test="identificationNumber!=null">
                 identification_number = #{identificationNumber}
             </if>
             <if test="licensePlateNumber!=null">
                 and license_plate_number = #{licensePlateNumber}
+            </if>
+            <if test="vehicleType!=null">
+                and vehicle_type like CONCAT('%', #{vehicleType}, '%')
+            </if>
+            <if test="clientNumber!=null">
+                and client.number = #{clientNumber}
+            </if>
+            <if test="clientName!=null">
+                and client.name like CONCAT('%', #{clientName}, '%')
             </if>
         </where>
     </select>

@@ -37,10 +37,13 @@ public class FrontDeskController {
     public Result<PageBean<Fault>> findFaults (
             Integer pageNum,
             Integer pageSize,
-            @RequestParam(required = false) String number,
-            @RequestParam(required = false) String identification_number
+            @RequestParam(required = false) Integer number,
+            @RequestParam(required = false) String identification_number,
+            @RequestParam(required = false) String client_name,
+            @RequestParam(required = false) Integer client_number
+
     ) {
-        PageBean<Fault> cls = frontDeskService.findFaults(pageNum, pageSize, number, identification_number);
+        PageBean<Fault> cls = frontDeskService.findFaults(pageNum, pageSize, number, identification_number, client_name, client_number);
         return Result.success(cls);
     }
 
@@ -65,9 +68,11 @@ public class FrontDeskController {
             Integer pageSize,
             @RequestParam(required = false) String identification_number,
             @RequestParam(required = false) String license_plate_number,
-            @RequestParam(required = false) String vehicle_type
+            @RequestParam(required = false) String vehicle_type,
+            @RequestParam(required = false) Integer client_number,
+            @RequestParam(required = false) String client_name
     ) {
-        PageBean<Car> cls = frontDeskService.findCars(pageNum, pageSize, identification_number, license_plate_number, vehicle_type);
+        PageBean<Car> cls = frontDeskService.findCars(pageNum, pageSize, identification_number, license_plate_number, vehicle_type, client_number, client_name);
         return Result.success(cls);
     }
 

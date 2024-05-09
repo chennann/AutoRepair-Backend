@@ -8,7 +8,6 @@ import com.github.pagehelper.PageHelper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.awt.print.Book;
 import java.util.List;
 
 @Service
@@ -46,13 +45,13 @@ public class FrontDeskServiceImpl implements FrontDeskService {
     }
 
     @Override
-    public PageBean<Fault> findFaults(Integer pageNum, Integer pageSize, String number, String identification_number) {
+    public PageBean<Fault> findFaults(Integer pageNum, Integer pageSize, Integer number, String identification_number, String client_name, Integer client_number) {
 
         PageBean<Fault> pb = new PageBean<>();
         PageHelper.startPage(pageNum, pageSize);
 
 
-        List<Fault> as = frontDeskMapper.findFaults(number, identification_number);
+        List<Fault> as = frontDeskMapper.findFaults(number, identification_number, client_name, client_number);
         Page<Fault> p = (Page<Fault>) as;
 
         pb.setTotal(p.getTotal());
@@ -61,13 +60,13 @@ public class FrontDeskServiceImpl implements FrontDeskService {
     }
 
     @Override
-    public PageBean<Car> findCars(Integer pageNum, Integer pageSize, String identificationNumber, String licensePlateNumber, String vehicleType) {
+    public PageBean<Car> findCars(Integer pageNum, Integer pageSize, String identificationNumber, String licensePlateNumber, String vehicleType, Integer clientNumber, String clientName) {
 
         PageBean<Car> pb = new PageBean<>();
         PageHelper.startPage(pageNum, pageSize);
 
 
-        List<Car> as = frontDeskMapper.findCars(identificationNumber, licensePlateNumber, vehicleType);
+        List<Car> as = frontDeskMapper.findCars(identificationNumber, licensePlateNumber, vehicleType, clientNumber, clientName);
         Page<Car> p = (Page<Car>) as;
 
         pb.setTotal(p.getTotal());

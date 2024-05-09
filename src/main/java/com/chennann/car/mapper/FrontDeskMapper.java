@@ -5,7 +5,6 @@ import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Options;
 import org.apache.ibatis.annotations.Select;
-import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.List;
 
@@ -21,9 +20,9 @@ public interface FrontDeskMapper {
 
     List<Client> findClients(String number, String name, String property, String contact_number);
 
-    List<Fault> findFaults(String number, String identification_number);
+    List<Fault> findFaults(Integer number, String identification_number, String client_name, Integer client_number);
 
-    List<Car> findCars(String identificationNumber, String licensePlateNumber, String vehicleType);
+    List<Car> findCars(String identificationNumber, String licensePlateNumber, String vehicleType, Integer clientNumber, String clientName);
 
     List<Repairman> findRepairman(String jobs, Integer number);
 

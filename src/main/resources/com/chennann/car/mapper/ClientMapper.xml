@@ -10,4 +10,16 @@
                  where car.identification_number = fault.identification_number
                     and car.client_number = #{clientNumber}
     </select>
+    <select id="getFaultNumberByClientNumber" resultType="java.lang.Integer">
+        select max(fault.number) from car , fault where car.identification_number = fault.identification_number and car.client_number = #{clientNumber}
+    </select>
+    <select id="getSpecificsByFaultNumber" resultType="com.chennann.car.pojo.Specific">
+        select * from fault_specific, specific_information where fault_specific.specific_number = specific_information.number and fault_specific.fault_number = #{faultNumber}
+    </select>
+    <select id="getComponentsByFaultNumber" resultType="com.chennann.car.pojo.Component">
+        select * from component_project, component where component_project.component_number = component.number and component_project.fault_number = #{faultNumber}
+    </select>
+    <select id="getFaultByFaultNumber" resultType="com.chennann.car.pojo.Fault">
+        select * from fault where number = #{faultNumber}
+    </select>
 </mapper>
