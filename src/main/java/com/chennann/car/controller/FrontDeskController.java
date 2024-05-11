@@ -94,25 +94,31 @@ public class FrontDeskController {
     public Result addCar(@RequestBody Car car) {
         System.out.println(car);
 
-//        //查找有没有这个人
-//        Client clt = frontDeskService.getClient(car.getClient_name(), car.getClient_contact_number());
-//        System.out.println(clt);
-//
-//        if (clt == null) {
-//            //新增客户
-//            Client clt_tmp = new Client();
-//            clt_tmp.setName(car.getClient_name());
-//            clt_tmp.setProperty("个人");
-//            clt_tmp.setContact_number(car.getClient_contact_number());
-//            clt_tmp.setDiscount(1F);
-//            frontDeskService.addClient(clt_tmp);
-//            System.out.println(clt_tmp.getNumber());
-//            car.setClient_number(clt_tmp.getNumber());
-//        }
-//        else {
-//            car.setClient_number(clt.getNumber());
-//        }
-        frontDeskService.addCar(car);
+        if (car.getClient_number() != null) {
+            frontDeskService.addCar(car);
+        }
+        else {//查找有没有这个人
+            Client clt = frontDeskService.getClient(car.getClient_name(), car.getClient_contact_number());
+            System.out.println(clt);
+
+            if (clt == null) {
+                //新增客户
+                Client clt_tmp = new Client();
+                clt_tmp.setName(car.getClient_name());
+                clt_tmp.setProperty("个人");
+                clt_tmp.setContact_number(car.getClient_contact_number());
+                clt_tmp.setDiscount(1F);
+                frontDeskService.addClient(clt_tmp);
+                System.out.println(clt_tmp.getNumber());
+                car.setClient_number(clt_tmp.getNumber());
+            }
+            else {
+                car.setClient_number(clt.getNumber());
+            }
+            frontDeskService.addCar(car);
+        }
+
+
         return Result.success();
     }
 
