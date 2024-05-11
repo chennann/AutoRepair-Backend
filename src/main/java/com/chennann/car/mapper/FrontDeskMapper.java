@@ -1,10 +1,7 @@
 package com.chennann.car.mapper;
 
 import com.chennann.car.pojo.*;
-import org.apache.ibatis.annotations.Insert;
-import org.apache.ibatis.annotations.Mapper;
-import org.apache.ibatis.annotations.Options;
-import org.apache.ibatis.annotations.Select;
+import org.apache.ibatis.annotations.*;
 
 import java.util.List;
 
@@ -38,4 +35,12 @@ public interface FrontDeskMapper {
     void addClient(Client client);
 
     List<Specific> findSpecifics(String jobsType, String keywords);
+
+    @Delete("delete from car where identification_number = #{identificationNumber}")
+    void deleteCarByIdentificationNumber(String identificationNumber);
+
+    @Delete("delete from car where license_plate_number = #{licensePlateNumber}")
+    void deleteCarByLicensePlateNumber(String licensePlateNumber);
+
+    List<SpecificsOfFaultNumber> getSpecificsByFaultNumber(Integer faultNumber);
 }

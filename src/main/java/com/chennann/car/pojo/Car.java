@@ -14,6 +14,6 @@ public class Car {
     String vehicle_type;
     Integer client_number;
 
-    String client_name;
-    String client_contact_number;
+//    String client_name;
+//    String client_contact_number;
 }

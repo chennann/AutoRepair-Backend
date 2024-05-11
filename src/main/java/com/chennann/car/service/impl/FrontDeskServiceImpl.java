@@ -119,4 +119,20 @@ public class FrontDeskServiceImpl implements FrontDeskService {
         pb.setItems(p.getResult());
         return pb;
     }
+
+    @Override
+    public void deleteCarByIdentificationNumber(String identificationNumber) {
+        frontDeskMapper.deleteCarByIdentificationNumber(identificationNumber);
+    }
+
+    @Override
+    public void deleteCarByLicensePlateNumber(String licensePlateNumber) {
+        frontDeskMapper.deleteCarByLicensePlateNumber(licensePlateNumber);
+    }
+
+    @Override
+    public List<SpecificsOfFaultNumber> getSpecificsByFaultNumber(Integer faultNumber) {
+
+        return frontDeskMapper.getSpecificsByFaultNumber(faultNumber);
+    }
 }

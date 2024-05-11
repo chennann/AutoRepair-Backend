@@ -90,4 +90,9 @@
             </if>
         </where>
     </select>
+    <select id="getSpecificsByFaultNumber" resultType="com.chennann.car.pojo.SpecificsOfFaultNumber">
+        select * from fault_specific A, specific_information B
+        where A.specific_number = B.number and A.fault_number = #{faultNumber}
+    </select>
+
 </mapper>

@@ -4,14 +4,17 @@ import com.aliyun.oss.ClientException;
 import com.aliyun.oss.OSS;
 import com.aliyun.oss.OSSClientBuilder;
 import com.aliyun.oss.OSSException;
+import org.springframework.beans.factory.annotation.Value;
 
 import java.io.InputStream;
 
 public class AliOssUtil {
     private static final String ENDPOINT = "https://oss-cn-shanghai.aliyuncs.com";
-    private static final String ACCESS_KEY_ID = "";
-    private static final String SECRET_ACCESS_KEY = "";
-    private static final String BUCKET_NAME = "";
+    @Value("${aliyun.access-key-id}")
+    private static String ACCESS_KEY_ID;
+    @Value("${aliyun.secret-access-key}")
+    private static String SECRET_ACCESS_KEY;
+    private static final String BUCKET_NAME = "roy066";
 
     //上传文件,返回文件的公网访问地址
     public static String uploadFile(String objectName, InputStream inputStream){

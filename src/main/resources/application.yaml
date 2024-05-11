@@ -16,3 +16,7 @@ wx:
   secret: ${WECHAT_SECRET}
   openid: ${WECHAT_OPENID}
   templateId: "l_W1x3CzdxD0f0tcGVAh1z5odMQFtee1_Ugkqk3lEGM"
+
+aliyun:
+  access-key-id: ${ALIYUN_ACCESS_KEY_ID}
+  secret-access-key: ${ALIYUN_SECRET ACCESS_KEY}

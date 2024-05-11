@@ -24,4 +24,10 @@ public interface FrontDeskService {
     void addClient(Client client);
 
     PageBean<Specific> findSpecifics(Integer pageNum, Integer pageSize, String jobsType, String keywords);
+
+    void deleteCarByIdentificationNumber(String identificationNumber);
+
+    void deleteCarByLicensePlateNumber(String licensePlateNumber);
+
+    List<SpecificsOfFaultNumber> getSpecificsByFaultNumber(Integer faultNumber);
 }

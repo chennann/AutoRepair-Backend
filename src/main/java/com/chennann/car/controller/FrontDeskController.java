@@ -94,24 +94,24 @@ public class FrontDeskController {
     public Result addCar(@RequestBody Car car) {
         System.out.println(car);
 
-        //查找有没有这个人
-        Client clt = frontDeskService.getClient(car.getClient_name(), car.getClient_contact_number());
-        System.out.println(clt);
-
-        if (clt == null) {
-            //新增客户
-            Client clt_tmp = new Client();
-            clt_tmp.setName(car.getClient_name());
-            clt_tmp.setProperty("个人");
-            clt_tmp.setContact_number(car.getClient_contact_number());
-            clt_tmp.setDiscount(1F);
-            frontDeskService.addClient(clt_tmp);
-            System.out.println(clt_tmp.getNumber());
-            car.setClient_number(clt_tmp.getNumber());
-        }
-        else {
-            car.setClient_number(clt.getNumber());
-        }
+//        //查找有没有这个人
+//        Client clt = frontDeskService.getClient(car.getClient_name(), car.getClient_contact_number());
+//        System.out.println(clt);
+//
+//        if (clt == null) {
+//            //新增客户
+//            Client clt_tmp = new Client();
+//            clt_tmp.setName(car.getClient_name());
+//            clt_tmp.setProperty("个人");
+//            clt_tmp.setContact_number(car.getClient_contact_number());
+//            clt_tmp.setDiscount(1F);
+//            frontDeskService.addClient(clt_tmp);
+//            System.out.println(clt_tmp.getNumber());
+//            car.setClient_number(clt_tmp.getNumber());
+//        }
+//        else {
+//            car.setClient_number(clt.getNumber());
+//        }
         frontDeskService.addCar(car);
         return Result.success();
     }
@@ -121,7 +121,7 @@ public class FrontDeskController {
     public Result addClient(@RequestBody Client client) {
         frontDeskService.addClient(client);
         System.out.println(client.getNumber());
-        return Result.success();
+        return Result.success(client);
     }
 
     //查看故障表格（返回固定的表格数据）
@@ -134,5 +134,34 @@ public class FrontDeskController {
     ) {
         PageBean<Specific> cls = frontDeskService.findSpecifics(pageNum, pageSize, jobs_type, keywords);
         return Result.success(cls);
+    }
+
+    //删除车辆
+    @PostMapping("/deleteCar")
+    public Result deleteCar(@RequestBody Car car) {
+        System.out.println(car);
+//        frontDeskService.deleteCar(car);
+
+        if (car.getIdentification_number() != null) {
+            System.out.println("identification_number");
+            frontDeskService.deleteCarByIdentificationNumber(car.getIdentification_number());
+            return Result.success(car.getIdentification_number());
+        }
+        else if (car.getLicense_plate_number() != null) {
+            System.out.println("license_plate_number");
+            frontDeskService.deleteCarByLicensePlateNumber(car.getLicense_plate_number());
+            return Result.success(car.getLicense_plate_number());
+        }
+        else {
+            return Result.error("删除失败");
+        }
+//        return Result.success(car);
+    }
+
+    //根据faultNumber查找所有specifics
+    @GetMapping("/getSpecificsByFaultNumber")
+    public Result<List<SpecificsOfFaultNumber>> getSpecificsByFaultNumber(Integer faultNumber) {
+        List<SpecificsOfFaultNumber> specifics = frontDeskService.getSpecificsByFaultNumber(faultNumber);
+        return Result.success(specifics);
     }
 }
